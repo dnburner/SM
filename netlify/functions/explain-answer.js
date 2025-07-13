@@ -12,7 +12,7 @@ Student Answer: ${studentAnswer}
 Correct Answer: ${correctAnswer}
 
 Explain the correct answer in simple words a 6-7 year old can understand. Use a calm and encouraging tone.
-  `.trim();
+`.trim();
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -24,24 +24,20 @@ Explain the correct answer in simple words a 6-7 year old can understand. Use a 
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: prompt }],
-        max_tokens: 150,
-        temperature: 0.7
+        max_tokens: 150
       })
     });
 
     const data = await response.json();
-    console.log("OpenAI response:", JSON.stringify(data, null, 2));
-
     const explanation = data.choices?.[0]?.message?.content || "I'm not sure. Try again!";
     return {
       statusCode: 200,
       body: JSON.stringify({ explanation })
     };
-  } catch (error) {
-    console.error("OpenAI API error:", error);
+  } catch (err) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ explanation: "Internal error. Try again later." })
+      body: JSON.stringify({ explanation: "Error reaching explanation service." })
     };
   }
 };
