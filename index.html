@@ -1,173 +1,68 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>1st Grade Math Quiz - Advanced</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        #question { font-size: 24px; margin-bottom: 20px; }
-        #feedback { margin-top: 10px; font-weight: bold; }
-        #summary { margin-top: 40px; }
-        button { font-size: 18px; margin-top: 20px; }
-    
-.explanation {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px dashed #888;
-    background-color: #f0f8ff;
-    font-size: 18px;
-    border-radius: 6px;
-}
-</style>
+  <title>1st Grade Math Quiz</title>
+  <style>
+    body { font-family: sans-serif; padding: 2em; }
+    #question { font-size: 24px; margin-bottom: 1em; }
+    .explanation {
+      margin-top: 10px;
+      padding: 10px;
+      background: #eef;
+      border: 1px dashed #888;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
-    <h1>1st Grade Math Quiz - Advanced</h1>
-    <div id="quiz-container">
-        <div id="question"></div>
-        <input type="text" id="answer" autocomplete="off"/>
-        <button onclick="submitAnswer()">Submit</button>
-        <div id="feedback"></div>
-        <div id="progress"></div>
-        <button onclick="stopQuiz()">Stop and View Report</button>
-    </div>
-    <div id="summary"></div>
-    <script>
-        const questions = [{"question": "What is 62 - 58?", "answer": 4, "skill": "Addition/Subtraction within 100"}, {"question": "What is 41 + 54?", "answer": 95, "skill": "Addition/Subtraction within 100"}, {"question": "What is 45 + 42?", "answer": 87, "skill": "Addition/Subtraction within 100"}, {"question": "What is 60 - 59?", "answer": 1, "skill": "Addition/Subtraction within 100"}, {"question": "What is 51 + 40?", "answer": 91, "skill": "Addition/Subtraction within 100"}, {"question": "What is 58 + 43?", "answer": 101, "skill": "Addition/Subtraction within 100"}, {"question": "What is 67 + 62?", "answer": 129, "skill": "Addition/Subtraction within 100"}, {"question": "What is 55 + 62?", "answer": 117, "skill": "Addition/Subtraction within 100"}, {"question": "What is 66 - 42?", "answer": 24, "skill": "Addition/Subtraction within 100"}, {"question": "What is 69 - 30?", "answer": 39, "skill": "Addition/Subtraction within 100"}, {"question": "What is 40 + 62?", "answer": 102, "skill": "Addition/Subtraction within 100"}, {"question": "What is 65 + 30?", "answer": 95, "skill": "Addition/Subtraction within 100"}, {"question": "What is 70 - 34?", "answer": 36, "skill": "Addition/Subtraction within 100"}, {"question": "What is 70 - 65?", "answer": 5, "skill": "Addition/Subtraction within 100"}, {"question": "What is 59 + 61?", "answer": 120, "skill": "Addition/Subtraction within 100"}, {"question": "What is 52 + 34?", "answer": 86, "skill": "Addition/Subtraction within 100"}, {"question": "What is 56 - 30?", "answer": 26, "skill": "Addition/Subtraction within 100"}, {"question": "What is 68 - 30?", "answer": 38, "skill": "Addition/Subtraction within 100"}, {"question": "What is 44 - 40?", "answer": 4, "skill": "Addition/Subtraction within 100"}, {"question": "What is 53 + 34?", "answer": 87, "skill": "Addition/Subtraction within 100"}, {"question": "What is 63 - 45?", "answer": 18, "skill": "Addition/Subtraction within 100"}, {"question": "What is 36 + 57?", "answer": 93, "skill": "Addition/Subtraction within 100"}, {"question": "What is 52 - 35?", "answer": 17, "skill": "Addition/Subtraction within 100"}, {"question": "What is 45 - 34?", "answer": 11, "skill": "Addition/Subtraction within 100"}, {"question": "What is 60 - 50?", "answer": 10, "skill": "Addition/Subtraction within 100"}, {"question": "What is 70 - 52?", "answer": 18, "skill": "Addition/Subtraction within 100"}, {"question": "What is 45 - 33?", "answer": 12, "skill": "Addition/Subtraction within 100"}, {"question": "What is 67 + 39?", "answer": 106, "skill": "Addition/Subtraction within 100"}, {"question": "What is 40 + 66?", "answer": 106, "skill": "Addition/Subtraction within 100"}, {"question": "What is 49 - 37?", "answer": 12, "skill": "Addition/Subtraction within 100"}, {"question": "What is 41 + 69?", "answer": 110, "skill": "Addition/Subtraction within 100"}, {"question": "What is 53 - 43?", "answer": 10, "skill": "Addition/Subtraction within 100"}, {"question": "What is 34 + 58?", "answer": 92, "skill": "Addition/Subtraction within 100"}, {"question": "What is 51 - 51?", "answer": 0, "skill": "Addition/Subtraction within 100"}, {"question": "What is 53 - 34?", "answer": 19, "skill": "Addition/Subtraction within 100"}, {"question": "What is 58 + 51?", "answer": 109, "skill": "Addition/Subtraction within 100"}, {"question": "What is 56 - 53?", "answer": 3, "skill": "Addition/Subtraction within 100"}, {"question": "What is 63 - 30?", "answer": 33, "skill": "Addition/Subtraction within 100"}, {"question": "What is 40 + 30?", "answer": 70, "skill": "Addition/Subtraction within 100"}, {"question": "What is 61 - 44?", "answer": 17, "skill": "Addition/Subtraction within 100"}, {"question": "Sophie has 5 apples. She buys 20 more and gives away 4. How many apples does she have now?", "answer": 21, "skill": "2-step word problems"}, {"question": "Sophie has 9 apples. She buys 9 more and gives away 3. How many apples does she have now?", "answer": 15, "skill": "2-step word problems"}, {"question": "Sophie has 9 apples. She buys 15 more and gives away 8. How many apples does she have now?", "answer": 16, "skill": "2-step word problems"}, {"question": "Sophie has 8 apples. She buys 12 more and gives away 3. How many apples does she have now?", "answer": 17, "skill": "2-step word problems"}, {"question": "Sophie has 18 apples. She buys 14 more and gives away 3. How many apples does she have now?", "answer": 29, "skill": "2-step word problems"}, {"question": "Sophie has 19 apples. She buys 11 more and gives away 7. How many apples does she have now?", "answer": 23, "skill": "2-step word problems"}, {"question": "Sophie has 8 apples. She buys 12 more and gives away 5. How many apples does she have now?", "answer": 15, "skill": "2-step word problems"}, {"question": "Sophie has 10 apples. She buys 9 more and gives away 7. How many apples does she have now?", "answer": 12, "skill": "2-step word problems"}, {"question": "Sophie has 8 apples. She buys 5 more and gives away 3. How many apples does she have now?", "answer": 10, "skill": "2-step word problems"}, {"question": "Sophie has 18 apples. She buys 12 more and gives away 7. How many apples does she have now?", "answer": 23, "skill": "2-step word problems"}, {"question": "Sophie has 19 apples. She buys 9 more and gives away 10. How many apples does she have now?", "answer": 18, "skill": "2-step word problems"}, {"question": "Sophie has 19 apples. She buys 16 more and gives away 3. How many apples does she have now?", "answer": 32, "skill": "2-step word problems"}, {"question": "Sophie has 10 apples. She buys 7 more and gives away 6. How many apples does she have now?", "answer": 11, "skill": "2-step word problems"}, {"question": "Sophie has 17 apples. She buys 15 more and gives away 10. How many apples does she have now?", "answer": 22, "skill": "2-step word problems"}, {"question": "Sophie has 10 apples. She buys 12 more and gives away 6. How many apples does she have now?", "answer": 16, "skill": "2-step word problems"}, {"question": "Sophie has 8 apples. She buys 13 more and gives away 6. How many apples does she have now?", "answer": 15, "skill": "2-step word problems"}, {"question": "Sophie has 10 apples. She buys 17 more and gives away 7. How many apples does she have now?", "answer": 20, "skill": "2-step word problems"}, {"question": "Sophie has 16 apples. She buys 7 more and gives away 10. How many apples does she have now?", "answer": 13, "skill": "2-step word problems"}, {"question": "Sophie has 10 apples. She buys 18 more and gives away 6. How many apples does she have now?", "answer": 22, "skill": "2-step word problems"}, {"question": "Sophie has 5 apples. She buys 12 more and gives away 2. How many apples does she have now?", "answer": 15, "skill": "2-step word problems"}, {"question": "29 + ___ = 70. What number goes in the blank?", "answer": 41, "skill": "Missing number"}, {"question": "35 + ___ = 79. What number goes in the blank?", "answer": 44, "skill": "Missing number"}, {"question": "45 - ___ = 26. What number goes in the blank?", "answer": 19, "skill": "Missing number"}, {"question": "49 - ___ = 8. What number goes in the blank?", "answer": 41, "skill": "Missing number"}, {"question": "50 - ___ = 2. What number goes in the blank?", "answer": 48, "skill": "Missing number"}, {"question": "15 - ___ = 0. What number goes in the blank?", "answer": 15, "skill": "Missing number"}, {"question": "14 + ___ = 54. What number goes in the blank?", "answer": 40, "skill": "Missing number"}, {"question": "28 - ___ = 12. What number goes in the blank?", "answer": 16, "skill": "Missing number"}, {"question": "23 + ___ = 63. What number goes in the blank?", "answer": 40, "skill": "Missing number"}, {"question": "20 + ___ = 31. What number goes in the blank?", "answer": 11, "skill": "Missing number"}, {"question": "45 - ___ = 24. What number goes in the blank?", "answer": 21, "skill": "Missing number"}, {"question": "17 + ___ = 36. What number goes in the blank?", "answer": 19, "skill": "Missing number"}, {"question": "16 - ___ = 2. What number goes in the blank?", "answer": 14, "skill": "Missing number"}, {"question": "38 - ___ = 11. What number goes in the blank?", "answer": 27, "skill": "Missing number"}, {"question": "34 + ___ = 62. What number goes in the blank?", "answer": 28, "skill": "Missing number"}, {"question": "15 + ___ = 56. What number goes in the blank?", "answer": 41, "skill": "Missing number"}, {"question": "35 - ___ = 18. What number goes in the blank?", "answer": 17, "skill": "Missing number"}, {"question": "16 - ___ = 6. What number goes in the blank?", "answer": 10, "skill": "Missing number"}, {"question": "40 + ___ = 75. What number goes in the blank?", "answer": 35, "skill": "Missing number"}, {"question": "24 - ___ = 2. What number goes in the blank?", "answer": 22, "skill": "Missing number"}, {"question": "There are 4 rows of 4 apples each. How many apples in total?", "answer": 16, "skill": "Intro to multiplication"}, {"question": "There are 4 rows of 5 apples each. How many apples in total?", "answer": 20, "skill": "Intro to multiplication"}, {"question": "There are 3 rows of 2 apples each. How many apples in total?", "answer": 6, "skill": "Intro to multiplication"}, {"question": "There are 5 rows of 4 apples each. How many apples in total?", "answer": 20, "skill": "Intro to multiplication"}, {"question": "There are 5 rows of 3 apples each. How many apples in total?", "answer": 15, "skill": "Intro to multiplication"}, {"question": "There are 4 rows of 5 apples each. How many apples in total?", "answer": 20, "skill": "Intro to multiplication"}, {"question": "There are 2 rows of 5 apples each. How many apples in total?", "answer": 10, "skill": "Intro to multiplication"}, {"question": "There are 5 rows of 5 apples each. How many apples in total?", "answer": 25, "skill": "Intro to multiplication"}, {"question": "There are 5 rows of 4 apples each. How many apples in total?", "answer": 20, "skill": "Intro to multiplication"}, {"question": "There are 5 rows of 3 apples each. How many apples in total?", "answer": 15, "skill": "Intro to multiplication"}, {"question": "There are 5 rows of 3 apples each. How many apples in total?", "answer": 15, "skill": "Intro to multiplication"}, {"question": "There are 2 rows of 3 apples each. How many apples in total?", "answer": 6, "skill": "Intro to multiplication"}, {"question": "There are 4 rows of 3 apples each. How many apples in total?", "answer": 12, "skill": "Intro to multiplication"}, {"question": "There are 3 rows of 2 apples each. How many apples in total?", "answer": 6, "skill": "Intro to multiplication"}, {"question": "There are 4 rows of 5 apples each. How many apples in total?", "answer": 20, "skill": "Intro to multiplication"}, {"question": "There are 3 rows of 2 apples each. How many apples in total?", "answer": 6, "skill": "Intro to multiplication"}, {"question": "There are 3 rows of 3 apples each. How many apples in total?", "answer": 9, "skill": "Intro to multiplication"}, {"question": "There are 4 rows of 2 apples each. How many apples in total?", "answer": 8, "skill": "Intro to multiplication"}, {"question": "There are 2 rows of 4 apples each. How many apples in total?", "answer": 8, "skill": "Intro to multiplication"}, {"question": "There are 2 rows of 5 apples each. How many apples in total?", "answer": 10, "skill": "Intro to multiplication"}];
-        let current = 0, correct = 0, total = 0;
-        let wrongAnswers = [];
-        let stats = {};
-        function shuffle(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-        }
-        shuffle(questions);
-        questions.splice(50);
-        function displayQuestion() {
-            if (current < questions.length) {
-                document.getElementById("question").innerText = questions[current].question;
-                document.getElementById("answer").value = "";
-                document.getElementById("feedback").innerText = "";
-                document.getElementById("progress").innerText = `Question ${current + 1} of ${questions.length}`;
-            } else {
-                stopQuiz();
-            }
-        }
-        function submitAnswer() {
-            const userAnswer = document.getElementById("answer").value.trim();
-            const correctAnswer = questions[current].answer.toString();
-            const skill = questions[current].skill;
-            stats[skill] = stats[skill] || { total: 0, correct: 0 };
-            stats[skill].total += 1;
-            total++;
-            if (userAnswer === correctAnswer) {
-                correct++;
-                stats[skill].correct += 1;
-                document.getElementById("feedback").innerText = "✅ Correct!";
-            } else {
-                document.getElementById("feedback").innerText = `❌ Incorrect. The correct answer was ${correctAnswer}.`;
-                wrongAnswers.push(questions[current]);
-            }
-            current++;
-            if (userAnswer === correctAnswer) {
-        setTimeout(displayQuestion, 1000);
-    } else {
-        const nextButton = document.createElement("button");
-        nextButton.innerText = "Next Question";
-        nextButton.onclick = function() {
-            nextButton.remove();
-            displayQuestion();
-        };
-        document.getElementById("feedback").appendChild(nextButton);
-    }
-        }
-        function stopQuiz() {
-            document.getElementById("quiz-container").style.display = "none";
-            const summary = document.getElementById("summary");
-            summary.innerHTML = `<h2>Quiz Summary</h2>
-                <p>You answered ${correct} out of ${total} questions correctly.</p>
-                <h3>Performance by Curriculum Area</h3>
-                <ul>`;
-            for (const skill in stats) {
-                const s = stats[skill];
-                summary.innerHTML += `<li>${skill}: ${s.correct} / ${s.total} correct</li>`;
-            }
-            summary.innerHTML += `</ul>`;
-            if (wrongAnswers.length > 0) {
-                summary.innerHTML += "<h3>Review Incorrect Answers</h3><ul>";
-                wrongAnswers.forEach(q => {
-                    summary.innerHTML += `<li>${q.question} <strong>Answer:</strong> ${q.answer}</li>`;
-                });
-                summary.innerHTML += "</ul>";
-            }
-        }
-        displayQuestion();
-    
+  <h1>Math Quiz</h1>
+  <div id="question"></div>
+  <input id="answer" type="text" />
+  <button onclick="submitAnswer()">Submit</button>
+  <div id="feedback"></div>
 
-async function fetchExplanation(question, correctAnswer, studentAnswer) {
-    try {
+  <script>
+    const questions = [
+      { question: "What is 5 + 3?", answer: 8 }
+    ];
+    let current = 0;
+
+    async function fetchExplanation(question, correctAnswer, studentAnswer) {
+      try {
         const res = await fetch("/.netlify/functions/explain-answer", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question, correctAnswer, studentAnswer }),
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question, correctAnswer, studentAnswer })
         });
+
         const data = await res.json();
         return data.explanation || "Let’s try to understand it together!";
-    } catch (err) {
+      } catch (err) {
         console.error("Explanation error:", err);
         return "Sorry, I couldn’t explain that right now.";
-    }
-}
-
-async function handleSubmit() {
-function submitAnswer() {
-    handleSubmit();
-}
-
-    const userAnswer = document.getElementById("answer").value;
-    const correctAnswer = questions[currentQuestionIndex].answer;
-    const questionText = questions[currentQuestionIndex].question;
-    const feedbackEl = document.getElementById("feedback");
-    feedbackEl.innerHTML = "";
-
-    if (parseInt(userAnswer) === correctAnswer) {
-        correctCount++;
-        feedbackEl.textContent = "Correct!";
-        currentQuestionIndex++;
-        setTimeout(loadQuestion, 1000);
-    } else {
-        incorrectCount++;
-        feedbackEl.textContent = "Incorrect. Try again.";
-
-        // fetch and display explanation
-        const explanation = await fetchExplanation(questionText, correctAnswer, userAnswer);
-        const explainEl = document.createElement("div");
-        explainEl.className = "explanation";
-        explainEl.textContent = "Here's why: " + explanation;
-        feedbackEl.appendChild(explainEl);
+      }
     }
 
-    document.getElementById("answer").value = "";
-}
+    async function submitAnswer() {
+      const userAnswer = document.getElementById("answer").value;
+      const correct = questions[current].answer;
+      const feedback = document.getElementById("feedback");
+      feedback.innerHTML = "";
 
-
-
-
-async function fetchExplanation(question, correctAnswer, studentAnswer) {
-    try {
-        const res = await fetch("/.netlify/functions/explain-answer", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question, correctAnswer, studentAnswer }),
-        });
-        const data = await res.json();
-        return data.explanation || "Let’s try to understand it together!";
-    } catch (err) {
-        console.error("Explanation error:", err);
-        return "Sorry, I couldn’t explain that right now.";
+      if (parseInt(userAnswer) === correct) {
+        feedback.textContent = "✅ Correct!";
+      } else {
+        feedback.textContent = "❌ Incorrect. Try again.";
+        const explanationText = await fetchExplanation(questions[current].question, correct, userAnswer);
+        const el = document.createElement("div");
+        el.className = "explanation";
+        el.innerText = explanationText;
+        feedback.appendChild(el);
+      }
     }
-}
-</script>
+
+    document.getElementById("question").textContent = questions[current].question;
+  </script>
 </body>
 </html>
