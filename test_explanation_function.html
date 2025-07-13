@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test ChatGPT Explanation Function</title>
+</head>
+<body>
+  <h1>Test ChatGPT Explanation Function</h1>
+  <p><strong>Note:</strong> This sends a test request to your deployed Netlify function and displays the response below.</p>
+
+  <button onclick="callFunction()">Call Function</button>
+  <pre id="output" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;"></pre>
+
+  <script>
+    async function callFunction() {
+      const output = document.getElementById("output");
+      output.textContent = "Calling...";
+
+      try {
+        const response = await fetch("https://gleaming-babka-6b5b8b.netlify.app/.netlify/functions/explain-answer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            question: "What is 5 + 3?",
+            correctAnswer: "8",
+            studentAnswer: "7"
+          })
+        });
+
+        const data = await response.json();
+        output.textContent = "Response:\n" + JSON.stringify(data, null, 2);
+      } catch (err) {
+        output.textContent = "Error:\n" + err.toString();
+      }
+    }
+  </script>
+</body>
+</html>
