@@ -4,29 +4,49 @@
 <head>
   <title>1st Grade Math Quiz</title>
   <style>
-    body { font-family: sans-serif; padding: 2em; }
-    #question { font-size: 24px; margin-bottom: 1em; }
+    body { font-family: sans-serif; padding: 2em; background: #f9f9f9; }
+    #questionBox { font-size: 24px; margin-bottom: 1em; }
+    #progress { margin-top: 1em; }
     .explanation {
-      margin-top: 10px;
-      padding: 10px;
+      margin-top: 1em;
+      padding: 1em;
       background: #eef;
-      border: 1px dashed #888;
-      border-radius: 6px;
+      border-left: 4px solid #88f;
+      border-radius: 8px;
     }
+    #stopButton, #nextButton { margin-top: 1em; display: inline-block; }
   </style>
 </head>
 <body>
-  <h1>Math Quiz</h1>
-  <div id="question"></div>
+  <h1>Math Quiz App</h1>
+  <div id="questionBox"></div>
   <input id="answer" type="text" />
   <button onclick="submitAnswer()">Submit</button>
   <div id="feedback"></div>
+  <button id="nextButton" style="display:none;" onclick="nextQuestion()">Next Question</button>
+  <button id="stopButton" onclick="stopQuiz()">Stop & View Report</button>
+  <div id="progress"></div>
 
   <script>
-    const questions = [
-      { question: "What is 5 + 3?", answer: 8 }
+    const questionBank = [
+      { question: "What is 3 + 4?", answer: 7, topic: "Addition" },
+      { question: "What is 10 - 6?", answer: 4, topic: "Subtraction" },
+      { question: "What is 2 + 2?", answer: 4, topic: "Addition" },
+      { question: "What is 5 + 5?", answer: 10, topic: "Addition" },
+      { question: "What is 9 - 3?", answer: 6, topic: "Subtraction" }
     ];
     let current = 0;
+    let score = 0;
+    let history = [];
+    let stats = {};
+
+    function showQuestion() {
+      const q = questionBank[current];
+      document.getElementById("questionBox").textContent = q.question;
+      document.getElementById("feedback").innerHTML = "";
+      document.getElementById("answer").value = "";
+      document.getElementById("nextButton").style.display = "none";
+    }
 
     async function fetchExplanation(question, correctAnswer, studentAnswer) {
       try {
@@ -35,34 +55,59 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ question, correctAnswer, studentAnswer })
         });
-
         const data = await res.json();
         return data.explanation || "Let’s try to understand it together!";
-      } catch (err) {
-        console.error("Explanation error:", err);
+      } catch {
         return "Sorry, I couldn’t explain that right now.";
       }
     }
 
     async function submitAnswer() {
-      const userAnswer = document.getElementById("answer").value;
-      const correct = questions[current].answer;
+      const userAnswer = parseInt(document.getElementById("answer").value);
+      const correct = questionBank[current].answer;
+      const topic = questionBank[current].topic;
       const feedback = document.getElementById("feedback");
-      feedback.innerHTML = "";
 
-      if (parseInt(userAnswer) === correct) {
-        feedback.textContent = "✅ Correct!";
+      if (!(topic in stats)) stats[topic] = { correct: 0, total: 0 };
+      stats[topic].total += 1;
+
+      if (userAnswer === correct) {
+        score++;
+        stats[topic].correct += 1;
+        feedback.innerHTML = "✅ Correct!";
+        nextQuestion(true);
       } else {
-        feedback.textContent = "❌ Incorrect. Try again.";
-        const explanationText = await fetchExplanation(questions[current].question, correct, userAnswer);
-        const el = document.createElement("div");
-        el.className = "explanation";
-        el.innerText = explanationText;
-        feedback.appendChild(el);
+        feedback.innerHTML = `❌ Incorrect. The correct answer was ${correct}.`;
+        const explanation = await fetchExplanation(questionBank[current].question, correct, userAnswer);
+        const expDiv = document.createElement("div");
+        expDiv.className = "explanation";
+        expDiv.innerText = explanation;
+        feedback.appendChild(expDiv);
+        document.getElementById("nextButton").style.display = "inline-block";
+      }
+
+      history.push({ question: questionBank[current].question, correct: userAnswer === correct });
+    }
+
+    function nextQuestion(force = false) {
+      current++;
+      if (current >= questionBank.length) {
+        stopQuiz();
+      } else {
+        showQuestion();
       }
     }
 
-    document.getElementById("question").textContent = questions[current].question;
+    function stopQuiz() {
+      let report = `<h2>Report</h2><p>Score: ${score} / ${questionBank.length}</p>`;
+      for (const topic in stats) {
+        const { correct, total } = stats[topic];
+        report += `<p>${topic}: ${correct} / ${total}</p>`;
+      }
+      document.body.innerHTML = report;
+    }
+
+    showQuestion();
   </script>
 </body>
 </html>
