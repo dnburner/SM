@@ -16,15 +16,15 @@ Explain the correct answer in simple words a 6-7 year old can understand. Use a 
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      Authorization: \`Bearer \${process.env.OPENAI_API_KEY}\`,
-      "Content-Type": "application/json",
+      "Authorization": "Bearer " + process.env.OPENAI_API_KEY,
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       max_tokens: 150,
-      temperature: 0.7,
-    }),
+      temperature: 0.7
+    })
   });
 
   const data = await response.json();
@@ -32,6 +32,6 @@ Explain the correct answer in simple words a 6-7 year old can understand. Use a 
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ explanation }),
+    body: JSON.stringify({ explanation })
   };
 };
