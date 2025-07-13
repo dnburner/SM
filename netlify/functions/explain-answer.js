@@ -21,7 +21,7 @@ Explain the correct answer in simple words a 6-7 year old can understand. Use a 
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4o",
+        model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: prompt }],
         max_tokens: 150,
         temperature: 0.7
